@@ -72,4 +72,30 @@ class ResolveUnionSuite extends AnalysisTest {
     val expected3 = Union(table1 :: projected2 :: projected3 :: Nil)
     comparePlans(analyzed3, expected3)
   }
+
+  test("SPARK-xxxx: add alias when left side of union has duplicate attributes") {
+    val table1 = LocalRelation(
+      AttributeReference("a", IntegerType)(),
+      AttributeReference("b", IntegerType)())
+    val table2 = LocalRelation(
+      AttributeReference("a", IntegerType)(),
+      AttributeReference("b", IntegerType)())
+    val rules = Seq(ResolveUnion)
+    val analyzer = new RuleExecutor[LogicalPlan] {
+      override val batches = Seq(Batch("Resolution", Once, rules: _*))
+    }
+
+    // left side of union has duplicate attributes
+    val projected1 = Project(Seq(table1.output(0), table1.output(0)), table1)
+    val projected2 = Project(Seq(table2.output(0), table2.output(1)), table2)
+    val union = Union(projected1 :: projected2 :: Nil)
+    val analyzed = analyzer.execute(union)
+    val projected = Project(
+      Seq(
+        Alias(table1.output(0), table1.output(0).name)(),
+        Alias(table1.output(0), table1.output(0).name)()),
+      projected1)
+    val expected = Union(projected :: projected2 :: Nil)
+    comparePlans(analyzed, expected)
+  }
 }
