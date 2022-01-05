@@ -1382,6 +1382,7 @@ class IndexesTest(PandasOnSparkTestCase, TestUtils):
         # print("psidx: ", psidx.repeat(3).sort_values())
         print("pidx: ", pidx.repeat(3).sort_values())
         print(psidx)
+        print(psidx.repeat(3).sort_values())
         self.assert_eq(psidx.repeat(3).sort_values(), pidx.repeat(3).sort_values())
         self.assert_eq(psidx.repeat(0).sort_values(), pidx.repeat(0).sort_values())
         self.assert_eq((psidx + "x").repeat(3).sort_values(), (pidx + "x").repeat(3).sort_values())
