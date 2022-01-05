@@ -1379,8 +1379,9 @@ class IndexesTest(PandasOnSparkTestCase, TestUtils):
     def test_repeat(self):
         pidx = pd.Index(["a", "b", "c"])
         psidx = ps.from_pandas(pidx)
-        print("psidx: ", psidx.repeat(3).sort_values())
+        # print("psidx: ", psidx.repeat(3).sort_values())
         print("pidx: ", pidx.repeat(3).sort_values())
+        print(psidx)
         self.assert_eq(psidx.repeat(3).sort_values(), pidx.repeat(3).sort_values())
         self.assert_eq(psidx.repeat(0).sort_values(), pidx.repeat(0).sort_values())
         self.assert_eq((psidx + "x").repeat(3).sort_values(), (pidx + "x").repeat(3).sort_values())
