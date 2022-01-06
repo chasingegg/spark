@@ -2164,7 +2164,7 @@ class Index(IndexOpsMixin):
         """
         return isinstance(self.spark.data_type, (TimestampType, TimestampNTZType))
 
-    def repeat(self, repeats: int) -> "Index":
+    # def repeat(self, repeats: int) -> "Index":
         """
         Repeat elements of a Index/MultiIndex.
 
@@ -2214,18 +2214,18 @@ class Index(IndexOpsMixin):
         >>> midx.repeat(0)  # doctest: +SKIP
         MultiIndex([], )
         """
-        if not isinstance(repeats, int):
-            raise TypeError(
-                "`repeats` argument must be integer, but got {}".format(type(repeats).__name__)
-            )
-        elif repeats < 0:
-            raise ValueError("negative dimensions are not allowed")
-
-        psdf: DataFrame = DataFrame(self._internal.resolved_copy)
-        if repeats == 0:
-            return DataFrame(psdf._internal.with_filter(SF.lit(False))).index
-        else:
-            return ps.concat([psdf] * repeats).index
+        # if not isinstance(repeats, int):
+        #     raise TypeError(
+        #         "`repeats` argument must be integer, but got {}".format(type(repeats).__name__)
+        #     )
+        # elif repeats < 0:
+        #     raise ValueError("negative dimensions are not allowed")
+        #
+        # psdf: DataFrame = DataFrame(self._internal.resolved_copy)
+        # if repeats == 0:
+        #     return DataFrame(psdf._internal.with_filter(SF.lit(False))).index
+        # else:
+        #     return ps.concat([psdf] * repeats).index
 
     def asof(self, label: Any) -> Scalar:
         """
