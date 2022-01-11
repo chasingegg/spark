@@ -80,6 +80,7 @@ class ResolveUnionSuite extends AnalysisTest {
     val table2 = LocalRelation(
       AttributeReference("a", IntegerType)(),
       AttributeReference("b", IntegerType)())
+
     val rules = Seq(ResolveUnion)
     val analyzer = new RuleExecutor[LogicalPlan] {
       override val batches = Seq(Batch("Resolution", Once, rules: _*))
