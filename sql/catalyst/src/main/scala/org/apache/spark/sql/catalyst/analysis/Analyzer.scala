@@ -1343,8 +1343,8 @@ class Analyzer(
         }
         u.copy(children = newChildren)
       case u @ Union(children)
-          // the first child of union has duplicate attributes
-          if children.head.output.distinct.length < children.head.output.length =>
+        // the first child of union has duplicate attributes
+        if children.head.output.distinct.length < children.head.output.length =>
         val projectList = children.head.output.map { attr =>
           Alias(attr, attr.name)()
         }
